@@ -4,7 +4,7 @@ supported_targets:
 
 extensions:
   avocado-bsp-raspberrypi4:
-    version: 0.1.0
+    version: 0.1.1
     release: r0
     summary: Board support for the Raspberry Pi 4
     description: Board support for the Raspberry Pi 4
@@ -24,6 +24,9 @@ extensions:
     packages:
       bluez-firmware-rpidistro-bcm4345c0-hcd: '*'
       fwup: '*'
+      # regulatory.db for cfg80211; without it brcmfmac stays on the world domain
+      # (country 00) and the kernel logs a failed direct firmware load at boot.
+      wireless-regdb-static: '*'
       kernel-module-bcm2835-codec: '*'
       kernel-module-bcm2835-isp: '*'
       kernel-module-bcm2835-mmal-vchiq: '*'
@@ -37,6 +40,9 @@ extensions:
       kernel-module-dwc2: '*'
       kernel-module-ecc: '*'
       kernel-module-ecdh-generic: '*'
+      # Bluetooth SMP needs cmac(aes); without it hci0 logs "Unable to create
+      # CMAC crypto context" and LE pairing cannot work.
+      kernel-module-cmac: '*'
       kernel-module-fuse: '*'
       kernel-module-gpu-sched: '*'
       kernel-module-hci-uart: '*'
